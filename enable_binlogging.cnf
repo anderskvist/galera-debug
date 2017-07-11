@@ -1,0 +1,4 @@
+[mysqld]
+log_bin		= /var/lib/mysql/mariadb-bin
+log_bin_index	= /var/lib/mysql/mariadb-bin.index
+
