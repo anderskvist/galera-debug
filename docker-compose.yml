@@ -1,0 +1,39 @@
+version: "2"
+services:
+
+  node1:
+    image: panubo/mariadb-galera
+    environment:
+      - MYSQL_ROOT_PASSWORD=testing
+      - WSREP_NODE_ADDRESS=node1
+      - WSREP_CLUSTER_ADDRESS=gcomm://node1:4567,node2:4567,node3:4567
+    volumes:
+      - ./node1-mysqld:/var/lib/mysql:Z
+      - ./enable_binlogging.cnf:/etc/mysql/conf.d/enable_binlogging.cnf
+    command:
+      - mysqld
+      - --wsrep-new-cluster
+
+  node2:
+    image: panubo/mariadb-galera
+    environment:
+      - MYSQL_ROOT_PASSWORD=testing
+      - WSREP_NODE_ADDRESS=node2
+      - WSREP_CLUSTER_ADDRESS=gcomm://node1:4567,node2:4567,node3:4567
+    volumes:
+      - ./node2-mysqld:/var/lib/mysql:Z
+      - ./enable_binlogging.cnf:/etc/mysql/conf.d/enable_binlogging.cnf
+    command:
+      - mysqld
+
+  node3:
+    image: panubo/mariadb-galera
+    environment:
+      - MYSQL_ROOT_PASSWORD=testing
+      - WSREP_NODE_ADDRESS=node3
+      - WSREP_CLUSTER_ADDRESS=gcomm://node1:4567,node2:4567,node3:4567
+    volumes:
+      - ./node3-mysqld:/var/lib/mysql:Z
+      - ./enable_binlogging.cnf:/etc/mysql/conf.d/enable_binlogging.cnf
+    command:
+      - mysqld
