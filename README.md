@@ -2,7 +2,7 @@ Below is an example of a failure:
 
 First we insert 5 rows of data on each of the 3 nodes in the cluster, then we select everything from the table (resulting in 15 rows on each server). Then we delete on each server with `hostname=@@hostname` so every server cleans up after itself. Lastly we check that the table is empty on all 3 servers.
 
-But, one of the deletes results in `Query OK, 0 rows affected` even tough the rows are deleted...
+But, one of the deletes results in `Query OK, 0 rows affected` even tough the rows are deleted and nothing is written in the binary logs (row based replication).
 
 In the logs this is shown (random amount of times):
 ```
